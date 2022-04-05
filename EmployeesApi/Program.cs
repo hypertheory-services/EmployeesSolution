@@ -13,7 +13,10 @@ builder.Services.AddRouting(options =>
 {
     options.ConstraintMap.Add("bsonid", typeof(BsonIdConstraint));
 });
+// Configuration Stuff
 
+builder.Services.Configure<MongoConnectionOptions>(builder.Configuration.GetSection(MongoConnectionOptions.SectionName));
+// IOptions<MongoConnectionOptions>
 
 // Add services to the container.
 

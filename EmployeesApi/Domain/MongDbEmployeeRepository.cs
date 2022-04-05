@@ -29,4 +29,14 @@ public class MongDbEmployeeRepository : IEmployeeRepository
         return response;
 
     }
+
+    public async Task<GetCollectionResponse<GetEmployeeSummaryResponse>> GetEmployeesAsync()
+    {
+        var projection = Builders<Employee>.Projection.Expression(emp => new GetEmployeeSummaryResponse(emp.Id.ToString(), emp.FirstName, emp.LastName, emp.Department));
+
+        var employees = await _context.GetEmployeeCollection().Find(_ => true) // Give them all to me!
+                .Project(projection)
+                .ToListAsync();
+        return new GetCollectionResponse<GetEmployeeSummaryResponse>() { Data = employees };
+    }
 }

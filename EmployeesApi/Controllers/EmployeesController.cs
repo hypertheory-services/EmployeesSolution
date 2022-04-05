@@ -4,6 +4,7 @@ using MongoDB.Bson;
 namespace EmployeesApi.Controllers;
 
 
+[Route("employees")]
 public class EmployeesController : ControllerBase
 {
     private readonly IEmployeeRepository _employeeRepository;
@@ -12,8 +13,16 @@ public class EmployeesController : ControllerBase
     {
         _employeeRepository = employeeRepository;
     }
+    // GET /employees
+    [HttpGet("")]
+    public async Task<ActionResult> GetAllEmployees()
+    {
+        GetCollectionResponse<GetEmployeeSummaryResponse> response = await _employeeRepository.GetEmployeesAsync();
+        return Ok(response);
+    }
 
-    [HttpGet("employees/{id:bsonid}")] // it won't even create this controller if that id isn't a valid bsonid (return 404)
+    // GET /employees/:id
+    [HttpGet("{id:bsonid}")] // it won't even create this controller if that id isn't a valid bsonid (return 404)
     public async Task<ActionResult<GetEmployeeDetailsResponse>> GetById(string id)
     {
         var objectId = ObjectId.Parse(id); // try catch.

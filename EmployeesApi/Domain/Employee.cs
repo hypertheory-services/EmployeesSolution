@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace EmployeesApi.Domain;
 
+[BsonIgnoreExtraElements]
 public class Employee
 {
     [BsonId]
