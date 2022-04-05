@@ -7,12 +7,15 @@ public class DemoController : ControllerBase
     // GET /status
 
     [HttpGet("status")]
+    [ResponseCache(Duration = 20, Location = ResponseCacheLocation.Any)]
     public async Task<ActionResult<GetStatusResponse>> GetTheStatus()
     {
         // fake classroom code (FOR NOW)
         var response = new GetStatusResponse(DateTime.Now, ServerStatus.Optimal, "Upgrade tonight");
         return Ok(response); // 200 Ok Status 
     }
+
+
 
 
     // GET /products/39389839  - Route Data

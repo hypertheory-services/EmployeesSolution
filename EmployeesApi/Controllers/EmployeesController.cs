@@ -16,6 +16,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost]
+    [ResponseCache(Duration = 20, Location = ResponseCacheLocation.Client)] // this is for the thing we sending down.
     public async Task<ActionResult> AddEmployee([FromBody] PostEmployeeRequest request)
     {
 
@@ -41,6 +42,7 @@ public class EmployeesController : ControllerBase
     }
 
     // GET /employees/:id
+    [ResponseCache(Duration = 20, Location = ResponseCacheLocation.Client)]
     [HttpGet("{id:bsonid}", Name ="employees#getbyid")] // it won't even create this controller if that id isn't a valid bsonid (return 404)
     public async Task<ActionResult<GetEmployeeDetailsResponse>> GetById(string id)
     {
