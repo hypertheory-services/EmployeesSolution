@@ -5,6 +5,7 @@
 // Prior to .NET 5, Web APIs used an open source library called NewtonSoft.Json
 // In .NET 5 + they use their own. This System.Test.Json
 using System.Text.Json.Serialization;
+using EmployeesApi.Adapters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,10 @@ builder.Services.AddSwaggerGen(); // OpenAPI Specification. "Swagger Documents"
 builder.Services.AddScoped<IEmployeeRepository, MongDbEmployeeRepository>();
 
 // Adapter Services
-
+builder.Services.AddSingleton<MongoDbContext>(); // Created "lazily"
+//var mongoDbContext = new MongoDbContext();
+//// configure the thing, etc.
+//builder.Services.AddSingleton(mongoDbContext);
 
 
 
