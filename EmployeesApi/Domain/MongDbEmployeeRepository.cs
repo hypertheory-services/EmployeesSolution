@@ -39,4 +39,20 @@ public class MongDbEmployeeRepository : IEmployeeRepository
                 .ToListAsync();
         return new GetCollectionResponse<GetEmployeeSummaryResponse>() { Data = employees };
     }
+
+    public async Task<GetEmployeeDetailsResponse> HireEmployee(PostEmployeeRequest request)
+    {
+        var employeeToAdd = new Employee
+        {
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Phone = request.Phone,
+            Email = request.Email,
+            Department = request.Department,
+            Salary = 100000
+        };
+        await _context.GetEmployeeCollection().InsertOneAsync(employeeToAdd);
+
+        return new GetEmployeeDetailsResponse(employeeToAdd.Id.ToString(), employeeToAdd.FirstName, employeeToAdd.LastName, employeeToAdd.Phone, employeeToAdd.Email, employeeToAdd.Department);
+    }
 }
