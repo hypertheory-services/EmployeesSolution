@@ -14,7 +14,7 @@ public class MongDbEmployeeRepository : IEmployeeRepository
         _context = context;
     }
 
-    public async Task<GetEmployeeDetailsResponse> GetEmployeeByIdAsync(ObjectId id)
+    public async Task<GetEmployeeDetailsResponse?> GetEmployeeByIdAsync(ObjectId id)
     {
         // In the context we have employees, but we need a GetEmployeeDetailResponse
         // Moving data from one thing into another "mapping", "projecting"
@@ -24,7 +24,7 @@ public class MongDbEmployeeRepository : IEmployeeRepository
         //var response = new GetEmployeeDetailsResponse(id, "Joe", "Schmidt", "888-1212", "joe@aol.com", "Sales");
         var response = await _context.GetEmployeeCollection().Find(options => options.Id == id)
             .Project(projection)
-            .SingleOrDefaultAsync(); // Todo:
+            .SingleOrDefaultAsync(); // I am expecting 1 or 0 things to be returned here.
 
         return response;
 

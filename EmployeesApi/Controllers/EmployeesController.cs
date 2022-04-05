@@ -13,12 +13,18 @@ public class EmployeesController : ControllerBase
         _employeeRepository = employeeRepository;
     }
 
-    [HttpGet("employees/{id:bsonid}")]
-    public async Task<ActionResult> GetById(ObjectId id)
+    [HttpGet("employees/{id:bsonid}")] // it won't even create this controller if that id isn't a valid bsonid (return 404)
+    public async Task<ActionResult<GetEmployeeDetailsResponse>> GetById(string id)
     {
-
-        GetEmployeeDetailsResponse response = await _employeeRepository.GetEmployeeByIdAsync(id);
-        return Ok(response);
+        var objectId = ObjectId.Parse(id); // try catch.
+        GetEmployeeDetailsResponse? response = await _employeeRepository.GetEmployeeByIdAsync(objectId);
+        if(response == null)
+        {
+            return NotFound();
+        } else
+        {
+            return Ok(response);
+        }
 
     }
 

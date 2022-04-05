@@ -5,5 +5,5 @@ namespace EmployeesApi.Domain;
 
 public interface IEmployeeRepository
 {
-    Task<GetEmployeeDetailsResponse> GetEmployeeByIdAsync(ObjectId id);
+    Task<GetEmployeeDetailsResponse?> GetEmployeeByIdAsync(ObjectId id);
 }
