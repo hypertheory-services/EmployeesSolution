@@ -4,10 +4,17 @@ namespace EmployeesApi.Controllers;
 
 public class EmployeesController : ControllerBase
 {
+    private readonly IEmployeeRepository _employeeRepository;
+
+    public EmployeesController(IEmployeeRepository employeeRepository)
+    {
+        _employeeRepository = employeeRepository;
+    }
+
     [HttpGet("employees/{id}")]
     public async Task<ActionResult> GetById(string id)
     {
-        var response = new GetEmployeeDetailsResponse(id, "Joe", "Schmidt", "888-1212", "joe@aol.com", "Sales");
+        GetEmployeeDetailsResponse response = await _employeeRepository.GetEmployeeByIdAsync(id);
         return Ok(response);
 
     }

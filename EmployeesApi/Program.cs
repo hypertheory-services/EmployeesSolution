@@ -20,6 +20,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // OpenAPI Specification. "Swagger Documents"
 
+// Domain Services
+builder.Services.AddScoped<IEmployeeRepository, MongDbEmployeeRepository>();
+
+// Adapter Services
+
+
+
+
 // Above here is configuring "behind the scenes stuff"
 var app = builder.Build();
 // Below here is configuring the Http "Pipeline" - how requests and responses are made.
