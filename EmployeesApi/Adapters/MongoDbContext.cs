@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace EmployeesApi.Adapters;
 
@@ -22,33 +20,4 @@ public class MongoDbContext
 
 }
 
-public class Employee
-{
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public ObjectId Id { get; set; }
 
-    [BsonElement("firstName")]
-    public string FirstName { get; set; } = "";
-    [BsonElement("lastName")]
-    public string LastName { get; set; } = "";
-    [BsonElement("email")]
-    public string Email { get; set; } = "";
-    [BsonElement("phone")]
-    public string Phone { get; set; } = "";
-    [BsonElement("department")]
-    public string Department { get; set; } = "";
-    [BsonElement("salary")]
-    public decimal Salary { get; set; }
-}
-
-/*
- * {
-    _id: ObjectId('624c5858eee281eac4e3fb76'),
-    firstName: 'Bob',
-    lastName: 'Smith',
-    email: 'bob@aol.com',
-    phone: '555-1212',
-    department: 'DEV',
-    salary: 120000
-}*/

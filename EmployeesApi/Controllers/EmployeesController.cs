@@ -1,4 +1,6 @@
 ﻿using EmployeesApi.Models;
+using MongoDB.Bson;
+
 namespace EmployeesApi.Controllers;
 
 
@@ -11,9 +13,10 @@ public class EmployeesController : ControllerBase
         _employeeRepository = employeeRepository;
     }
 
-    [HttpGet("employees/{id}")]
-    public async Task<ActionResult> GetById(string id)
+    [HttpGet("employees/{id:bsonid}")]
+    public async Task<ActionResult> GetById(ObjectId id)
     {
+
         GetEmployeeDetailsResponse response = await _employeeRepository.GetEmployeeByIdAsync(id);
         return Ok(response);
 

@@ -5,9 +5,14 @@
 // Prior to .NET 5, Web APIs used an open source library called NewtonSoft.Json
 // In .NET 5 + they use their own. This System.Test.Json
 using System.Text.Json.Serialization;
+using EmployeesApi;
 using EmployeesApi.Adapters;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRouting(options =>
+{
+    options.ConstraintMap.Add("bsonid", typeof(BsonIdConstraint));
+});
 
 
 // Add services to the container.
