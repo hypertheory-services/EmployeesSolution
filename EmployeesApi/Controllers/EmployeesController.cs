@@ -15,6 +15,37 @@ public class EmployeesController : ControllerBase
         _employeeRepository = employeeRepository;
     }
 
+
+    [HttpPut("{id:bsonid}/email")]
+    public async Task<ActionResult> UpdateEmail(string id, [FromBody] string email)
+    {
+        var objectId = ObjectId.Parse(id); // try catch.
+        bool found = await _employeeRepository.ChangePropertyAsync(objectId, emp => emp.Email, email);
+
+        return found switch
+        {
+            true => Accepted(),
+            false => NotFound()
+        };
+
+      
+    }
+    [HttpPut("{id:bsonid}/phone")]
+    public async Task<ActionResult> UpdatePhone(string id, [FromBody] string phone)
+    {
+        var objectId = ObjectId.Parse(id); // try catch.
+        bool found = await _employeeRepository.ChangePropertyAsync(objectId, emp => emp.Phone, phone);
+
+        return found switch
+        {
+            true => Accepted(),
+            false => NotFound()
+        };
+
+    }
+
+
+
     [HttpDelete("{id:bsonid}")]
     public async Task<ActionResult> RemoveEmployee(string id)
     {
