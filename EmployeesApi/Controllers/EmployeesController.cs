@@ -15,6 +15,14 @@ public class EmployeesController : ControllerBase
         _employeeRepository = employeeRepository;
     }
 
+    [HttpDelete("{id:bsonid}")]
+    public async Task<ActionResult> RemoveEmployee(string id)
+    {
+        var objectId = ObjectId.Parse(id); // try catch.
+        await _employeeRepository.FireAsync(objectId);
+        return NoContent();
+    }
+
     [HttpPost]
     [ResponseCache(Duration = 20, Location = ResponseCacheLocation.Client)] // this is for the thing we sending down.
     public async Task<ActionResult> AddEmployee([FromBody] PostEmployeeRequest request)
@@ -40,6 +48,7 @@ public class EmployeesController : ControllerBase
         GetCollectionResponse<GetEmployeeSummaryResponse> response = await _employeeRepository.GetEmployeesAsync();
         return Ok(response);
     }
+
 
     // GET /employees/:id
     [ResponseCache(Duration = 20, Location = ResponseCacheLocation.Client)]

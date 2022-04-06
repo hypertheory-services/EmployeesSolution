@@ -16,6 +16,17 @@ builder.Services.AddRouting(options =>
 // Configuration Stuff
 
 builder.Services.Configure<MongoConnectionOptions>(builder.Configuration.GetSection(MongoConnectionOptions.SectionName));
+
+// CORS for out of cluster browsers etc.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(pol =>
+    {
+        pol.AllowAnyOrigin();
+        pol.AllowAnyHeader();
+        pol.AllowAnyMethod();
+    });
+});
 // IOptions<MongoConnectionOptions>
 
 // Add services to the container.
@@ -50,7 +61,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
