@@ -10,10 +10,13 @@ public class MongDbEmployeeRepository : IEmployeeRepository
 {
     private readonly MongoDbContext _context;
     private readonly FilterDefinition<Employee> _onlyActiveEmployees;
-    public MongDbEmployeeRepository(MongoDbContext context)
+    private readonly ILookupSalary _salaryLookup;
+
+    public MongDbEmployeeRepository(MongoDbContext context, ILookupSalary salaryLookup)
     {
         _context = context;
         _onlyActiveEmployees = Builders<Employee>.Filter.Where(emp => emp.InActive != true);
+        _salaryLookup = salaryLookup;
     }
 
 
@@ -65,6 +68,10 @@ public class MongDbEmployeeRepository : IEmployeeRepository
 
     public async Task<GetEmployeeDetailsResponse> HireEmployee(PostEmployeeRequest request)
     {
+
+
+        decimal salary = await _salaryLookup.GetSalaryForNewHireAsync(request.Department);
+
         var employeeToAdd = new Employee
         {
             FirstName = request.FirstName,
@@ -72,7 +79,7 @@ public class MongDbEmployeeRepository : IEmployeeRepository
             Phone = request.Phone,
             Email = request.Email,
             Department = request.Department,
-            Salary = 100000
+            Salary = salary
         };
         await _context.GetEmployeeCollection().InsertOneAsync(employeeToAdd);
 
