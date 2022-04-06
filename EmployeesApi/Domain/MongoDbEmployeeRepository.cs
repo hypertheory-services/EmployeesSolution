@@ -1,18 +1,17 @@
 ﻿using System.Linq.Expressions;
 using EmployeesApi.Adapters;
 using EmployeesApi.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace EmployeesApi.Domain;
 
-public class MongDbEmployeeRepository : IEmployeeRepository
+public class MongoDbEmployeeRepository : IEmployeeRepository
 {
     private readonly MongoDbContext _context;
     private readonly FilterDefinition<Employee> _onlyActiveEmployees;
     private readonly ILookupSalary _salaryLookup;
 
-    public MongDbEmployeeRepository(MongoDbContext context, ILookupSalary salaryLookup)
+    public MongoDbEmployeeRepository(MongoDbContext context, ILookupSalary salaryLookup)
     {
         _context = context;
         _onlyActiveEmployees = Builders<Employee>.Filter.Where(emp => emp.InActive != true);

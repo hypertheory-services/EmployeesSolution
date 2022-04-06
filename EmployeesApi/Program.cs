@@ -41,7 +41,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // OpenAPI Specification. "Swagger Documents"
 
 // Domain Services
-builder.Services.AddScoped<IEmployeeRepository, MongDbEmployeeRepository>();
+builder.Services.AddScoped<IEmployeeRepository, MongoDbEmployeeRepository>();
 builder.Services.AddScoped<ILookupSalary, RpcSalaryLookup>();
 
 // Adapter Services
@@ -54,7 +54,7 @@ builder.Services.AddSingleton<MongoDbContext>(); // Created "lazily"
 builder.Services.AddHttpClient<SalaryApiContext>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("salaryApiUrl"));
-});
+}).AddPolicyHandler(InClusterPolicies.GetRetryPolicy());
 
 
 // Above here is configuring "behind the scenes stuff"
